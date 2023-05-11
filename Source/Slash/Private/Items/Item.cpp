@@ -13,19 +13,6 @@ AItem::AItem()
 void AItem::BeginPlay()
 {
 	Super::BeginPlay();
-
-	UWorld* World = GetWorld();
-	FVector Location = GetActorLocation();
-	FVector Forward = GetActorForwardVector();
-	FString HexColor = TEXT("#e3f542");
-	//DRAW_SPHERE(Location);
-	//DrawDebugSphere(World, Location, 30.f, 24, FColor::FromHex(FString(HexColor)), true );
-	//DRAW_SPHERE_COLOR(Location, HexColor);
-	/*DRAW_LINE(Location, Location + Forward * 100);
-	DRAW_POINT(Location + Forward * 100);*/
-	//DRAW_VECTOR(Location, Location + Forward * 100);
-	//DrawDebugBox(World, Location, FVector(10,10,10), FColor::FromHex(FString(HexColor)), true, -1.f, 0, 4.f );
-	DRAW_BOX(Location);
 		
 	
 }
@@ -34,4 +21,14 @@ void AItem::BeginPlay()
 void AItem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	//Movement Rate in Units of CM/Sec
+	float MovementRate = 50.f;
+	float RotationRate = 45.f;
+	//MovementRate * DeltaTime (cm/s * s/frame) = cm/frame
+	AddActorWorldOffset(FVector(MovementRate * DeltaTime, 0.f, 0.f));
+	AddActorWorldRotation(FRotator(0.f, RotationRate * DeltaTime, 0.f));
+	DRAW_SPHERE_SINGLE_FRAME(GetActorLocation());
+	DRAW_VECTOR_SINGLE_FRAME(GetActorLocation(), GetActorLocation() + GetActorForwardVector() * 100.f);
+	
 }
