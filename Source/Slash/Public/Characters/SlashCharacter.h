@@ -7,18 +7,39 @@
 #include "GameFramework/Character.h"
 #include "SlashCharacter.generated.h"
 
+class USpringArmComponent;
+class UCameraComponent;
+class UEnhancedInputComponent;
+class UInputMappingContext;
+class UInputAction;
+
 UCLASS()
-class SLASH_API ASlashEcho : public ACharacter
+class SLASH_API ASlashCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
-	ASlashEcho();
+	ASlashCharacter();
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
 	virtual void BeginPlay() override;
-	
-	void Move(FInputActionValue& Value);
+
+
+	//Input Setup
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputMappingContext* SlashMappingContext;
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction* Moving;
+
+
+	//IA Callback
+	void Move(const FInputActionValue& Value);
+
+	//Camera
+	UPROPERTY(EditAnywhere, Category = Camera)
+	UCameraComponent* Camera;
+	UPROPERTY(EditAnywhere, Category = Camera)
+	USpringArmComponent* SpringArm;
 };
