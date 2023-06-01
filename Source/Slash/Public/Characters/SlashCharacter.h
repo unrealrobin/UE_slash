@@ -12,6 +12,7 @@ class UCameraComponent;
 class UEnhancedInputComponent;
 class UInputMappingContext;
 class UInputAction;
+class UGroomComponent;
 
 UCLASS()
 class SLASH_API ASlashCharacter : public ACharacter
@@ -32,6 +33,8 @@ protected:
 	UInputMappingContext* SlashMappingContext;
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction* Moving;
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction* JumpAction;
 
 
 	//IA Callback
@@ -42,4 +45,10 @@ protected:
 	UCameraComponent* Camera;
 	UPROPERTY(EditAnywhere, Category = Camera)
 	USpringArmComponent* SpringArm;
+
+	//Hair
+	UPROPERTY(EditAnywhere, Category = Hair)
+	UGroomComponent* Hair;
+	UPROPERTY(EditAnywhere, Category = Hair)
+	UGroomComponent* Eyebrows;
 };

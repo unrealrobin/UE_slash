@@ -1,11 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Characters\SlashCharacter.h"
+#include "Characters/SlashCharacter.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "GroomComponent.h"
 
 ASlashCharacter::ASlashCharacter()
 {
@@ -21,6 +22,15 @@ ASlashCharacter::ASlashCharacter()
 	SpringArm->TargetArmLength = 300.f;
 	Camera = CreateDefaultSubobject<UCameraComponent>(FName("Camera"));
 	Camera->SetupAttachment(SpringArm);
+
+	//Hair Components
+	Hair = CreateDefaultSubobject<UGroomComponent>(FName("Hair"));
+	Hair->SetupAttachment(GetMesh());
+	Hair->AttachmentName = FString("head");
+	Eyebrows = CreateDefaultSubobject<UGroomComponent>(FName("Eyebrows"));
+	Eyebrows->SetupAttachment(GetMesh());
+	Eyebrows->AttachmentName = FString("head");
+	
 }
 
 
@@ -32,7 +42,9 @@ void ASlashCharacter::BeginPlay()
 	if(const APlayerController* PlayerController = Cast<APlayerController>(GetController()))
 	{
 		
-		if(UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem =
+			ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(
+				PlayerController->GetLocalPlayer()))
 		{
 			//Applying our specific SlashInputMappingContext to this Subsystem
 			Subsystem->AddMappingContext(SlashMappingContext, 0);
@@ -44,14 +56,19 @@ void ASlashCharacter::BeginPlay()
 
 void ASlashCharacter::Move(const FInputActionValue& Value)
 {
-	const FVector2d MovementVector = Value.Get<FVector2D>();
+	/*const FVector2d MovementVector = Value.Get<FVector2D>();
 	
 	const FVector Forward = GetActorForwardVector();
 	AddMovementInput(Forward, MovementVector.X);
-
-	const FVector Right = GetActorRightVector();
-	AddMovementInput(Right, MovementVector.Y);
 	
+	const FVector Right = GetActorRightVector();
+	AddMovementInput(Right, MovementVector.Y);*/
+
+	const FRotator ControlRotation = GetControlRotation();
+	const FRotator YawRotation(0.f, ControlRotation.Yaw, 0.f);
+	const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+	const float MovementVector = Value.Get<float>();
+	AddMovementInput(Direction, MovementVector);
 		
 	
 }
@@ -73,7 +90,8 @@ void ASlashCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	{
 		//Binding our New Input Actions to their Callback Functions
 		EnhancedInputComponent->BindAction(Moving, ETriggerEvent::Triggered, this, &ASlashCharacter::Move);
-		
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered,
+		                                   this, &ACharacter::Jump);
 	}
 }
 
