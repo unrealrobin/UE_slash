@@ -56,23 +56,25 @@ void ASlashCharacter::BeginPlay()
 
 void ASlashCharacter::Move(const FInputActionValue& Value)
 {
-	/*const FVector2d MovementVector = Value.Get<FVector2D>();
 	
-	const FVector Forward = GetActorForwardVector();
-	AddMovementInput(Forward, MovementVector.X);
-	
-	const FVector Right = GetActorRightVector();
-	AddMovementInput(Right, MovementVector.Y);*/
-
+	const FVector2d MovementVector = Value.Get<FVector2d>();
 	const FRotator ControlRotation = GetControlRotation();
 	const FRotator YawRotation(0.f, ControlRotation.Yaw, 0.f);
-	const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-	const float MovementVector = Value.Get<float>();
-	AddMovementInput(Direction, MovementVector);
-		
+	
+	const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+	AddMovementInput(ForwardDirection, MovementVector.X);
+	
+	const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+	AddMovementInput(RightDirection, MovementVector.Y);
 	
 }
 
+void ASlashCharacter::Look(const FInputActionValue& Value)
+{
+	const FVector2d LookAxisVector = Value.Get<FVector2d>();
+	AddControllerYawInput(LookAxisVector.X);
+	AddControllerPitchInput(LookAxisVector.Y);
+}
 
 void ASlashCharacter::Tick(float DeltaTime)
 {
@@ -92,6 +94,8 @@ void ASlashCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 		EnhancedInputComponent->BindAction(Moving, ETriggerEvent::Triggered, this, &ASlashCharacter::Move);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered,
 		                                   this, &ACharacter::Jump);
+		EnhancedInputComponent->BindAction(LookingAction, ETriggerEvent::Triggered,
+										   this, &ASlashCharacter::Look);
 	}
 }
 

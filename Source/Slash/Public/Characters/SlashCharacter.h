@@ -28,17 +28,19 @@ protected:
 	virtual void BeginPlay() override;
 
 
-	//Input Setup
+	//Input Action Setup
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputMappingContext* SlashMappingContext;
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction* Moving;
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction* JumpAction;
-
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction* LookingAction;
 
 	//IA Callback
 	void Move(const FInputActionValue& Value);
+	void Look(const FInputActionValue& Value);
 
 	//Camera
 	UPROPERTY(EditAnywhere, Category = Camera)
