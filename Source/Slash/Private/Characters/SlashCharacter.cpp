@@ -76,6 +76,18 @@ void ASlashCharacter::Look(const FInputActionValue& Value)
 	AddControllerPitchInput(LookAxisVector.Y);
 }
 
+void ASlashCharacter::DoAttack()
+{
+}
+
+void ASlashCharacter::DoDodge()
+{
+}
+
+void ASlashCharacter::DoEquip()
+{
+}
+
 void ASlashCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -92,10 +104,11 @@ void ASlashCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	{
 		//Binding our New Input Actions to their Callback Functions
 		EnhancedInputComponent->BindAction(Moving, ETriggerEvent::Triggered, this, &ASlashCharacter::Move);
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered,
-		                                   this, &ACharacter::Jump);
-		EnhancedInputComponent->BindAction(LookingAction, ETriggerEvent::Triggered,
-										   this, &ASlashCharacter::Look);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
+		EnhancedInputComponent->BindAction(LookingAction, ETriggerEvent::Triggered, this, &ASlashCharacter::Look);
+		EnhancedInputComponent->BindAction(Attack, ETriggerEvent::Triggered, this, &ASlashCharacter::DoAttack);
+		EnhancedInputComponent->BindAction(Equip, ETriggerEvent::Triggered, this, &ASlashCharacter::DoEquip);
+		EnhancedInputComponent->BindAction(Dodge, ETriggerEvent::Triggered, this, &ASlashCharacter::DoDodge);
 	}
 }
 

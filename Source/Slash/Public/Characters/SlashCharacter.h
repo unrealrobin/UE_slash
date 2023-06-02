@@ -37,10 +37,19 @@ protected:
 	UInputAction* JumpAction;
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction* LookingAction;
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction* Equip;
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction* Attack;
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction* Dodge;
 
 	//IA Callback
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
+	void DoAttack();
+	void DoDodge();
+	void DoEquip();
 
 	//Camera
 	UPROPERTY(EditAnywhere, Category = Camera)
