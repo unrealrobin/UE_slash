@@ -53,7 +53,6 @@ void ASlashCharacter::BeginPlay()
 	
 }
 
-
 void ASlashCharacter::Move(const FInputActionValue& Value)
 {
 	
@@ -93,7 +92,6 @@ void ASlashCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-
 
 void ASlashCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
