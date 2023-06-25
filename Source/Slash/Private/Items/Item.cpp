@@ -1,5 +1,6 @@
 #include "Items/Item.h"
 #include "DrawDebugHelpers.h"
+#include "Characters/SlashCharacter.h"
 #include "Components/SphereComponent.h"
 #include "Slash/DebugMacros.h"
 
@@ -42,12 +43,26 @@ void AItem::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent,
 	bool bFromSweep, const FHitResult& SweepResult)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Begin Overlap"));
+	//We want to set overlapped Item Variable on the SlashCharacter
+	ASlashCharacter* SlashCharacter = Cast<ASlashCharacter>(OtherActor);
+	if(SlashCharacter)
+	{
+		SlashCharacter->SetOverlappingItem(this);
+	}
+	
 }
 
 void AItem::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent,
 	AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	UE_LOG(LogTemp, Warning, TEXT("End Overlap"));
+	//Unsetting the overlappedItem once we are not overlapped
+	ASlashCharacter* SlashCharacter = Cast<ASlashCharacter>(OtherActor);
+	if(SlashCharacter)
+	{
+		SlashCharacter->SetOverlappingItem(nullptr);
+	}
+	
 }
 
 

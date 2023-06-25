@@ -7,6 +7,8 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GroomComponent.h"
+#include "Items/Item.h"
+#include "Items/Weapons/Weapon.h"
 
 ASlashCharacter::ASlashCharacter()
 {
@@ -85,6 +87,15 @@ void ASlashCharacter::DoDodge()
 
 void ASlashCharacter::DoEquip()
 {
+	//Perform Equip
+	//if overlapping with weapon
+	//equip or do something
+	AWeapon* OverlappingWeapon = Cast<AWeapon>(OverlappedItem);
+	if(OverlappingWeapon)
+	{
+		OverlappingWeapon->Equip(GetMesh(), FName("RightHandSocket"));
+	}
+	
 }
 
 void ASlashCharacter::Tick(float DeltaTime)

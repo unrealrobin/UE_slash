@@ -13,6 +13,7 @@ class UEnhancedInputComponent;
 class UInputMappingContext;
 class UInputAction;
 class UGroomComponent;
+class AItem;
 
 UCLASS()
 class SLASH_API ASlashCharacter : public ACharacter
@@ -23,6 +24,8 @@ public:
 	ASlashCharacter();
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	
 
 protected:
 	virtual void BeginPlay() override;
@@ -62,4 +65,17 @@ protected:
 	UGroomComponent* Hair;
 	UPROPERTY(EditAnywhere, Category = Hair)
 	UGroomComponent* Eyebrows;
+
+private:
+	//Items
+	UPROPERTY(VisibleInstanceOnly)
+	AItem* OverlappedItem;
+
+public:
+	//Getters
+	FORCEINLINE AItem* GetOverlappingItem() const {return OverlappedItem;}
+
+	//Setters
+	FORCEINLINE void SetOverlappingItem(AItem* Item) {OverlappedItem = Item;}
+	
 };

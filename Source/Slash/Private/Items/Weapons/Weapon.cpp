@@ -3,6 +3,8 @@
 
 #include "Items/Weapons/Weapon.h"
 
+#include "Characters/SlashCharacter.h"
+
 AWeapon::AWeapon()
 {
 }
@@ -24,6 +26,8 @@ void AWeapon::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent,
 	Super::OnSphereOverlap(OverlappedComponent, OtherActor, OtherComp,
 	                       OtherBodyIndex,
 	                       bFromSweep, SweepResult);
+	
+	
 }
 
 void AWeapon::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent,
@@ -32,5 +36,12 @@ void AWeapon::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent,
 	Super::OnSphereEndOverlap(OverlappedComponent, OtherActor, OtherComp,
 	                          OtherBodyIndex);
 }
+
+void AWeapon::Equip(USceneComponent* InParent, FName InSocketName)
+{
+	FAttachmentTransformRules TransformRules(EAttachmentRule::SnapToTarget, true);
+	ItemMesh->AttachToComponent(InParent, TransformRules, InSocketName);
+}
+
 
 
