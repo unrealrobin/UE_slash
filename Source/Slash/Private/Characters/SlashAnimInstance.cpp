@@ -23,6 +23,10 @@ void USlashAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 {
 	Super::NativeUpdateAnimation(DeltaSeconds);
 
+	if(SlashCharacter)
+	{
+		CharacterState = SlashCharacter->GetCharacterState();
+	}
 	
 
 	if(SlashCharacterMovementComponent != nullptr)

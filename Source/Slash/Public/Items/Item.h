@@ -50,14 +50,13 @@ protected:
 
 	UFUNCTION()
 	virtual void OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	float RunningTime;
-	
-	
 };
 
-
+//Template function for Avg (Types dont matter, as long as math operations work with them)
 template <typename T>
 inline T AItem::Avg(T First, T Second)
 {

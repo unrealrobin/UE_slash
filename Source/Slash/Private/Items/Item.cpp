@@ -42,7 +42,7 @@ void AItem::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent,
 	AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
 	bool bFromSweep, const FHitResult& SweepResult)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Begin Overlap"));
+	
 	//We want to set overlapped Item Variable on the SlashCharacter
 	ASlashCharacter* SlashCharacter = Cast<ASlashCharacter>(OtherActor);
 	if(SlashCharacter)

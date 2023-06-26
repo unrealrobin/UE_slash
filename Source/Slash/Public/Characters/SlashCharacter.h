@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CharacterTypes.h"
 #include "InputActionValue.h"
 #include "GameFramework/Character.h"
 #include "SlashCharacter.generated.h"
@@ -71,9 +72,12 @@ private:
 	UPROPERTY(VisibleInstanceOnly)
 	AItem* OverlappedItem;
 
+	ECharacterState CharacterState = ECharacterState::ECS_Unequipped;
+
 public:
 	//Getters
 	FORCEINLINE AItem* GetOverlappingItem() const {return OverlappedItem;}
+	FORCEINLINE ECharacterState GetCharacterState() const {return CharacterState;}
 
 	//Setters
 	FORCEINLINE void SetOverlappingItem(AItem* Item) {OverlappedItem = Item;}

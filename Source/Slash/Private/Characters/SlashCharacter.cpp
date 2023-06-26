@@ -15,9 +15,6 @@ ASlashCharacter::ASlashCharacter()
 
 	PrimaryActorTick.bCanEverTick = true;
 
-
-	
-
 	//Camera Components
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(FName("SpringArm"));
 	SpringArm->SetupAttachment(GetRootComponent());
@@ -34,7 +31,6 @@ ASlashCharacter::ASlashCharacter()
 	Eyebrows->AttachmentName = FString("head");
 	
 }
-
 
 void ASlashCharacter::BeginPlay()
 {
@@ -87,13 +83,12 @@ void ASlashCharacter::DoDodge()
 
 void ASlashCharacter::DoEquip()
 {
-	//Perform Equip
-	//if overlapping with weapon
-	//equip or do something
 	AWeapon* OverlappingWeapon = Cast<AWeapon>(OverlappedItem);
 	if(OverlappingWeapon)
 	{
+		CharacterState = ECharacterState::ECS_Equipped1H;
 		OverlappingWeapon->Equip(GetMesh(), FName("RightHandSocket"));
+		
 	}
 	
 }
