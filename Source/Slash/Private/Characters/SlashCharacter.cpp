@@ -74,11 +74,9 @@ void ASlashCharacter::Look(const FInputActionValue& Value)
 	AddControllerPitchInput(LookAxisVector.Y);
 }
 
-void ASlashCharacter::DoAttack()
+void ASlashCharacter::PlayAttackMontage() const
 {
-	//Attack Callback
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
-
 	if(AnimInstance && AttackMontage)
 	{
 		AnimInstance->Montage_Play(AttackMontage);
@@ -97,6 +95,15 @@ void ASlashCharacter::DoAttack()
 		}
 		AnimInstance->Montage_JumpToSection(SectionName, AttackMontage);
 	}
+}
+
+void ASlashCharacter::DoAttack()
+{
+	//Attack Callback
+	if(CanAttack())
+	{
+		PlayAttackMontage();
+	}
 	
 }
 
@@ -114,6 +121,21 @@ void ASlashCharacter::DoEquip()
 		
 	}
 	
+}
+
+void ASlashCharacter::AttackEnd()
+{
+	ActionState = EActionState::EAS_UnOccupied;
+}
+
+bool ASlashCharacter::CanAttack() const
+{
+	if(CharacterState != ECharacterState::ECS_Unequipped && ActionState == EActionState::EAS_UnOccupied)
+	{
+		return true;
+	}
+
+	return false;
 }
 
 void ASlashCharacter::Tick(float DeltaTime)

@@ -52,6 +52,7 @@ protected:
 	//IA Callback
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
+	void PlayAttackMontage() const;
 	void DoAttack();
 	void DoDodge();
 	void DoEquip();
@@ -68,6 +69,10 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Hair)
 	UGroomComponent* Eyebrows;
 
+	UFUNCTION(BlueprintCallable)
+	void AttackEnd();
+
+	bool CanAttack() const;
 	
 
 private:
@@ -75,7 +80,12 @@ private:
 	UPROPERTY(VisibleInstanceOnly)
 	AItem* OverlappedItem;
 
+	UPROPERTY(VisibleInstanceOnly, Category = "Character States" )
 	ECharacterState CharacterState = ECharacterState::ECS_Unequipped;
+
+	//The only reason this is BlueprintReadWrite is because we are using a Notify and the ABP to control when to change the Action state back to UnOccupied
+	UPROPERTY(BlueprintReadWrite,  meta=(AllowPrivateAccess = "true"), Category = "Character States" )
+	EActionState ActionState = EActionState::EAS_UnOccupied;
 
 	//Animation Montages
 	UPROPERTY(EditDefaultsOnly, Category = Montages)
