@@ -16,6 +16,7 @@ class UInputAction;
 class UGroomComponent;
 class AItem;
 class UAnimMontage;
+class AWeapon;
 
 UCLASS()
 class SLASH_API ASlashCharacter : public ACharacter
@@ -69,16 +70,23 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Hair)
 	UGroomComponent* Eyebrows;
 
+	//Montages
 	UFUNCTION(BlueprintCallable)
 	void AttackEnd();
-
+	
 	bool CanAttack() const;
+	bool CanArm();
+	bool CanDisarm();
+
 	
 
 private:
 	//Items
 	UPROPERTY(VisibleInstanceOnly)
 	AItem* OverlappedItem;
+
+	UPROPERTY(VisibleInstanceOnly)
+	AWeapon* EquippedWeapon;
 
 	UPROPERTY(VisibleInstanceOnly, Category = "Character States" )
 	ECharacterState CharacterState = ECharacterState::ECS_Unequipped;
@@ -91,7 +99,12 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = Montages)
 	UAnimMontage* AttackMontage;
 
+	UPROPERTY(EditDefaultsOnly, Category = Montages)
+	UAnimMontage* SheathSword;
 
+	void PlaySheathSwordMontage(FName SectionName);
+
+	
 public:
 	//Getters
 	FORCEINLINE AItem* GetOverlappingItem() const {return OverlappedItem;}

@@ -118,13 +118,28 @@ void ASlashCharacter::DoDodge()
 void ASlashCharacter::DoEquip()
 {
 	AWeapon* OverlappingWeapon = Cast<AWeapon>(OverlappedItem);
-	if(OverlappingWeapon)
+
+	if(EquippedWeapon == nullptr)
 	{
-		CharacterState = ECharacterState::ECS_Equipped1H;
-		OverlappingWeapon->Equip(GetMesh(), FName("RightHandSocket"));
-		
+		if(OverlappingWeapon && CharacterState == ECharacterState::ECS_Unequipped)
+		{
+			CharacterState = ECharacterState::ECS_Equipped1H;
+			OverlappingWeapon->Equip(GetMesh(), FName("RightHandSocket"));
+			EquippedWeapon = OverlappingWeapon;
+		};
 	}
-	
+	else
+	{
+		if(CanDisarm())
+		{
+			PlaySheathSwordMontage(FName("Disarm"));
+			CharacterState = ECharacterState::ECS_Unequipped;
+		}else if(CanArm())
+		{
+			PlaySheathSwordMontage(FName("Arm"));
+			CharacterState = ECharacterState::ECS_Equipped1H;
+		}
+	};
 }
 
 void ASlashCharacter::AttackEnd()
@@ -140,6 +155,31 @@ bool ASlashCharacter::CanAttack() const
 	}
 
 	return false;
+}
+
+bool ASlashCharacter::CanArm()
+{
+	if(EquippedWeapon && CharacterState == ECharacterState::ECS_Unequipped)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool ASlashCharacter::CanDisarm()
+{
+	if(EquippedWeapon && CharacterState != ECharacterState::ECS_Unequipped)
+	{
+		return true;
+	}
+	return false;
+}
+
+void ASlashCharacter::PlaySheathSwordMontage(FName SectionName)
+{
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	AnimInstance->Montage_Play(SheathSword);
+	AnimInstance->Montage_JumpToSection(SectionName, SheathSword);
 }
 
 void ASlashCharacter::Tick(float DeltaTime)
