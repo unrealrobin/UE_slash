@@ -17,6 +17,12 @@ void AWeapon::BeginPlay()
 void AWeapon::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if(ItemState == EItemState::EIS_Hovering)
+	{
+		AddActorWorldOffset(FVector(0.f, 0.f, TransformSin()));
+		AddActorWorldRotation(FRotator(0.0,RotationPerTick * DeltaTime, 0.0 ));
+	}
 }
 
 void AWeapon::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent,
@@ -39,6 +45,8 @@ void AWeapon::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent,
 
 void AWeapon::Equip(USceneComponent* InParent, FName InSocketName)
 {
+	ItemState = EItemState::EIS_Equipped;
+	
 	FAttachmentTransformRules TransformRules(EAttachmentRule::SnapToTarget, true);
 	ItemMesh->AttachToComponent(InParent, TransformRules, InSocketName);
 }

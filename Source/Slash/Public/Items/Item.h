@@ -8,6 +8,13 @@
 
 class USphereComponent;
 
+UENUM(BlueprintType)
+enum class EItemState: uint8
+{
+	EIS_Equipped UMETA(DisplayName = "Equipped"),
+	EIS_Hovering UMETA(DisplayName = "Hovering"),
+	
+};
 UCLASS()
 class SLASH_API AItem : public AActor
 {
@@ -19,6 +26,8 @@ public:
 	
 protected:
 
+	EItemState ItemState = EItemState::EIS_Hovering;
+	
 	virtual void BeginPlay() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
