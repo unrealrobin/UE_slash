@@ -54,7 +54,10 @@ void ASlashCharacter::BeginPlay()
 
 void ASlashCharacter::Move(const FInputActionValue& Value)
 {
-	
+	if(ActionState == EActionState::EAS_Attacking)
+	{
+		return;
+	}
 	const FVector2d MovementVector = Value.Get<FVector2d>();
 	const FRotator ControlRotation = GetControlRotation();
 	const FRotator YawRotation(0.f, ControlRotation.Yaw, 0.f);
@@ -102,6 +105,7 @@ void ASlashCharacter::DoAttack()
 	//Attack Callback
 	if(CanAttack())
 	{
+		ActionState = EActionState::EAS_Attacking;
 		PlayAttackMontage();
 	}
 	
