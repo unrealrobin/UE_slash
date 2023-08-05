@@ -15,6 +15,7 @@ class UInputMappingContext;
 class UInputAction;
 class UGroomComponent;
 class AItem;
+class UAnimMontage;
 
 UCLASS()
 class SLASH_API ASlashCharacter : public ACharacter
@@ -67,12 +68,19 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Hair)
 	UGroomComponent* Eyebrows;
 
+	
+
 private:
 	//Items
 	UPROPERTY(VisibleInstanceOnly)
 	AItem* OverlappedItem;
 
 	ECharacterState CharacterState = ECharacterState::ECS_Unequipped;
+
+	//Animation Montages
+	UPROPERTY(EditDefaultsOnly, Category = Montages)
+	UAnimMontage* AttackMontage;
+
 
 public:
 	//Getters

@@ -9,6 +9,7 @@
 #include "GroomComponent.h"
 #include "Items/Item.h"
 #include "Items/Weapons/Weapon.h"
+#include "Animation/AnimMontage.h"
 
 ASlashCharacter::ASlashCharacter()
 {
@@ -75,6 +76,28 @@ void ASlashCharacter::Look(const FInputActionValue& Value)
 
 void ASlashCharacter::DoAttack()
 {
+	//Attack Callback
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+
+	if(AnimInstance && AttackMontage)
+	{
+		AnimInstance->Montage_Play(AttackMontage);
+		int Selection = FMath::RandRange(0,1);
+		FName SectionName = FName();
+		switch (Selection)
+		{
+		case 0:
+			SectionName = FName("Attack1");
+			break;
+		case 1:
+			SectionName = FName("Attack2");
+			break;
+		default :
+			SectionName = FName("Attack3");
+		}
+		AnimInstance->Montage_JumpToSection(SectionName, AttackMontage);
+	}
+	
 }
 
 void ASlashCharacter::DoDodge()
