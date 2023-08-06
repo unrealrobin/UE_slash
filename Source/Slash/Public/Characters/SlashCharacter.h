@@ -78,12 +78,19 @@ protected:
 	bool CanArm();
 	bool CanDisarm();
 
-	
+	UFUNCTION(BlueprintCallable)
+	void Disarm();
+
+	UFUNCTION(BlueprintCallable)
+	void Arm();
 
 private:
 	//Items
 	UPROPERTY(VisibleInstanceOnly)
 	AItem* OverlappedItem;
+
+	UPROPERTY(VisibleInstanceOnly)
+	AWeapon* OverlappingWeapon;
 
 	UPROPERTY(VisibleInstanceOnly)
 	AWeapon* EquippedWeapon;

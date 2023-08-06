@@ -117,10 +117,11 @@ void ASlashCharacter::DoDodge()
 
 void ASlashCharacter::DoEquip()
 {
-	AWeapon* OverlappingWeapon = Cast<AWeapon>(OverlappedItem);
+	
 
 	if(EquippedWeapon == nullptr)
 	{
+		OverlappingWeapon = Cast<AWeapon>(OverlappedItem);
 		if(OverlappingWeapon && CharacterState == ECharacterState::ECS_Unequipped)
 		{
 			CharacterState = ECharacterState::ECS_Equipped1H;
@@ -173,6 +174,22 @@ bool ASlashCharacter::CanDisarm()
 		return true;
 	}
 	return false;
+}
+
+void ASlashCharacter::Disarm()
+{
+	if(EquippedWeapon)
+	{
+		EquippedWeapon->AttachWeaponToSocket(GetMesh(), FName("SpineSocket1"));
+	}
+}
+
+void ASlashCharacter::Arm()
+{
+	if(EquippedWeapon)
+	{
+		EquippedWeapon->AttachWeaponToSocket(GetMesh(), FName("RightHandSocket"));
+	}
 }
 
 void ASlashCharacter::PlaySheathSwordMontage(FName SectionName)
