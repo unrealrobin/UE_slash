@@ -84,6 +84,9 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void Arm();
 
+	UFUNCTION(BlueprintCallable)
+	void FinishedEquipping();
+
 private:
 	//Items
 	UPROPERTY(VisibleInstanceOnly)

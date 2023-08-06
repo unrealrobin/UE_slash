@@ -2,8 +2,8 @@
 
 
 #include "Items/Weapons/Weapon.h"
+#include "Kismet/GameplayStatics.h"
 
-#include "Characters/SlashCharacter.h"
 
 AWeapon::AWeapon()
 {
@@ -53,6 +53,11 @@ void AWeapon::AttachWeaponToSocket(USceneComponent* InParent, FName InSocketName
 void AWeapon::Equip(USceneComponent* InParent, FName InSocketName)
 {
 	ItemState = EItemState::EIS_Equipped;
+
+	if(EquipSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), EquipSound, GetActorLocation(),GetActorRotation());
+	}
 	
 	AttachWeaponToSocket(InParent, InSocketName);
 }

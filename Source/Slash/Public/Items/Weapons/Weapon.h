@@ -24,5 +24,9 @@ public:
 	
 protected:
 	virtual void BeginPlay() override;
+
+private:
+	UPROPERTY(EditAnywhere, Category = "Weapon Properties")
+	class USoundBase* EquipSound;
 	
 };

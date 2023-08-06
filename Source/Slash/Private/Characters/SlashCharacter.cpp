@@ -54,7 +54,7 @@ void ASlashCharacter::BeginPlay()
 
 void ASlashCharacter::Move(const FInputActionValue& Value)
 {
-	if(ActionState == EActionState::EAS_Attacking)
+	if(ActionState != EActionState::EAS_UnOccupied)
 	{
 		return;
 	}
@@ -180,6 +180,7 @@ void ASlashCharacter::Disarm()
 {
 	if(EquippedWeapon)
 	{
+		ActionState = EActionState::EAS_EquippingWeapon;
 		EquippedWeapon->AttachWeaponToSocket(GetMesh(), FName("SpineSocket1"));
 	}
 }
@@ -188,8 +189,14 @@ void ASlashCharacter::Arm()
 {
 	if(EquippedWeapon)
 	{
+		ActionState = EActionState::EAS_EquippingWeapon;
 		EquippedWeapon->AttachWeaponToSocket(GetMesh(), FName("RightHandSocket"));
 	}
+}
+
+void ASlashCharacter::FinishedEquipping()
+{
+	ActionState = EActionState::EAS_UnOccupied;
 }
 
 void ASlashCharacter::PlaySheathSwordMontage(FName SectionName)
