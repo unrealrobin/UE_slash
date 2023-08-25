@@ -7,9 +7,9 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GroomComponent.h"
-#include "Items/Item.h"
 #include "Items/Weapons/Weapon.h"
 #include "Animation/AnimMontage.h"
+#include "Components/BoxComponent.h"
 
 ASlashCharacter::ASlashCharacter()
 {
@@ -107,6 +107,7 @@ void ASlashCharacter::DoAttack()
 	{
 		ActionState = EActionState::EAS_Attacking;
 		PlayAttackMontage();
+		
 	}
 	
 }
@@ -197,6 +198,16 @@ void ASlashCharacter::Arm()
 void ASlashCharacter::FinishedEquipping()
 {
 	ActionState = EActionState::EAS_UnOccupied;
+}
+
+void ASlashCharacter::SetWeaponEnableCollision(ECollisionEnabled::Type CollisionType)
+{
+	if(EquippedWeapon && EquippedWeapon->GetWeaponBox())
+	{
+		EquippedWeapon->GetWeaponBox()->SetCollisionEnabled(CollisionType);
+	}
+	
+	
 }
 
 void ASlashCharacter::PlaySheathSwordMontage(FName SectionName)

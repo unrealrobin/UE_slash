@@ -87,6 +87,11 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void FinishedEquipping();
 
+	//Attack Collisions
+	UFUNCTION(BlueprintCallable)
+	void SetWeaponEnableCollision(ECollisionEnabled::Type CollisionType);
+
+
 private:
 	//Items
 	UPROPERTY(VisibleInstanceOnly)

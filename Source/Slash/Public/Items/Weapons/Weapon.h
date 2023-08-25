@@ -6,6 +6,9 @@
 #include "Items/Item.h"
 #include "Weapon.generated.h"
 
+//For Weapon Box collisions
+class UBoxComponent;
+class USceneComponent;
 /**
  * 
  */
@@ -22,11 +25,29 @@ public:
 	void AttachWeaponToSocket(USceneComponent* InParent, FName InSocketName);
 	void Equip(USceneComponent* InParent, FName InSocketName);
 	
+	UFUNCTION()
+	void OnWeaponBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
+	
 protected:
 	virtual void BeginPlay() override;
+
+	
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Weapon Properties")
 	class USoundBase* EquipSound;
+
+	UPROPERTY(VisibleAnywhere)
+	UBoxComponent* WeaponBox;
+	
+	UPROPERTY(VisibleAnywhere)
+	USceneComponent* BoxStart;
+	
+	UPROPERTY(VisibleAnywhere)
+	USceneComponent* BoxEnd;
+
+public:
+	//Getters and Setters
+	FORCEINLINE UBoxComponent* GetWeaponBox(){return WeaponBox;};
 	
 };
