@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Components/BoxComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Slash/Public/Interface/IHitInterface.h"
 
 
 
@@ -100,9 +101,20 @@ void AWeapon::OnWeaponBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		TraceTypeQuery1,
 		false,
 		ActorsToIgnore,
-		EDrawDebugTrace::Persistent,
+		EDrawDebugTrace::None,
 		OutHit,
 		true);
+
+	if(OutHit.GetActor())
+	{
+		//checking if the hit actor inherits from the HitInterface
+		IIHitInterface* HitInterface = Cast<IIHitInterface>(OutHit.GetActor());
+		if(HitInterface)
+		{
+			HitInterface->GetHit(OutHit.ImpactPoint);
+		}
+	}
+	
 	
 }
 

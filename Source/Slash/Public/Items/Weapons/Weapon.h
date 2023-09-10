@@ -31,7 +31,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	
+	FVector* ImpactPoint;
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Weapon Properties")
@@ -45,6 +45,8 @@ private:
 	
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* BoxEnd;
+
+	
 
 public:
 	//Getters and Setters

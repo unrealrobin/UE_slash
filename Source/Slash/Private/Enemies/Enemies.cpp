@@ -3,6 +3,7 @@
 
 #include "Enemies/Enemies.h"
 #include "Components/CapsuleComponent.h"
+#include "Slash/DebugMacros.h"
 
 // Sets default values
 AEnemies::AEnemies()
@@ -40,4 +41,10 @@ void AEnemies::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
+
+void AEnemies::GetHit(const FVector& ImpactPoint)
+{
+	DRAW_DEBUG(ImpactPoint);
+}
+
 

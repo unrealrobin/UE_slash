@@ -6,6 +6,7 @@
 #include "CharacterTypes.h"
 #include "InputActionValue.h"
 #include "GameFramework/Character.h"
+#include "Interface/IHitInterface.h"
 #include "SlashCharacter.generated.h"
 
 class USpringArmComponent;
