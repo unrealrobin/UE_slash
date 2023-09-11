@@ -7,6 +7,8 @@
 #include "Interface/IHitInterface.h"
 #include "Enemies.generated.h"
 
+class UAnimMontage;
+
 UCLASS()
 class SLASH_API AEnemies : public ACharacter, public IIHitInterface
 {
@@ -28,5 +30,11 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	virtual void GetHit(const FVector& ImpactPoint) override;
+
+	void PlatHitReactMontage(FName SectionName);
+
+private:
+	UPROPERTY(EditAnywhere, Category = "Enemy Montages")
+	UAnimMontage* HitReactMontage;
 
 };

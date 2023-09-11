@@ -45,6 +45,15 @@ void AEnemies::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void AEnemies::GetHit(const FVector& ImpactPoint)
 {
 	DRAW_DEBUG(ImpactPoint);
+
+	PlatHitReactMontage(FName("ReactFront"));
+}
+
+void AEnemies::PlatHitReactMontage(FName SectionName)
+{
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	AnimInstance->Montage_Play(HitReactMontage);
+	AnimInstance->Montage_JumpToSection(SectionName, HitReactMontage);
 }
 
 
