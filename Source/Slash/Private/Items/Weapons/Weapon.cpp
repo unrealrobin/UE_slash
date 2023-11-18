@@ -43,6 +43,7 @@ void AWeapon::Tick(float DeltaTime)
 	}
 }
 
+//Used for Picking Up Weapon
 void AWeapon::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent,
 	AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
 	bool bFromSweep, const FHitResult& SweepResult)
@@ -54,6 +55,7 @@ void AWeapon::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent,
 	
 }
 
+//Used for Picking Up Weapon
 void AWeapon::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent,
 	AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
@@ -91,8 +93,11 @@ void AWeapon::OnWeaponBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 
 	//Will be populated to ignore double hits
 	TArray<AActor*> ActorsToIgnore;
-	ActorsToIgnore.Add(this);
 	
+	//Ignores the weapon itself automatically
+	ActorsToIgnore.Add(this);
+
+	//Does the trace
 	UKismetSystemLibrary::BoxTraceSingle(this,
 		StartLocation,
 		EndLocation,
@@ -101,7 +106,7 @@ void AWeapon::OnWeaponBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		TraceTypeQuery1,
 		false,
 		ActorsToIgnore,
-		EDrawDebugTrace::None,
+		EDrawDebugTrace::ForDuration,
 		OutHit,
 		true);
 

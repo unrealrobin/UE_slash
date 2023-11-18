@@ -54,6 +54,7 @@ void ASlashCharacter::BeginPlay()
 
 void ASlashCharacter::Move(const FInputActionValue& Value)
 {
+	//if character is Attacking or Equipping Weapon
 	if(ActionState != EActionState::EAS_UnOccupied)
 	{
 		return;
@@ -79,22 +80,23 @@ void ASlashCharacter::Look(const FInputActionValue& Value)
 
 void ASlashCharacter::PlayAttackMontage() const
 {
+	//Plays the Montage at some Section
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
 	if(AnimInstance && AttackMontage)
 	{
 		AnimInstance->Montage_Play(AttackMontage);
-		int Selection = FMath::RandRange(1,2);
+		int Selection = FMath::RandRange(0,0);
 		FName SectionName = FName();
 		switch (Selection)
 		{
 		case 0:
-			SectionName = FName("Attack1");
+			SectionName = FName("Attack3");
 			break;
 		case 1:
 			SectionName = FName("Attack2");
 			break;
 		default :
-			SectionName = FName("Attack3");
+			SectionName = FName("Attack1");
 		}
 		AnimInstance->Montage_JumpToSection(SectionName, AttackMontage);
 	}
@@ -119,7 +121,7 @@ void ASlashCharacter::DoDodge()
 void ASlashCharacter::DoEquip()
 {
 	
-
+	//Picks up and Equips a weapon if there is no equipped weapon.
 	if(EquippedWeapon == nullptr)
 	{
 		OverlappingWeapon = Cast<AWeapon>(OverlappedItem);
@@ -130,16 +132,20 @@ void ASlashCharacter::DoEquip()
 			EquippedWeapon = OverlappingWeapon;
 		};
 	}
-	else
+	else //if there is a weapon equipped, Arm or Disarm
 	{
 		if(CanDisarm())
 		{
-			PlaySheathSwordMontage(FName("Disarm"));
+			ActionState = EActionState::EAS_EquippingWeapon;
 			CharacterState = ECharacterState::ECS_Unequipped;
+			PlaySheathSwordMontage(FName("Disarm"));
+			
 		}else if(CanArm())
 		{
-			PlaySheathSwordMontage(FName("Arm"));
+			ActionState = EActionState::EAS_EquippingWeapon;
 			CharacterState = ECharacterState::ECS_Equipped1H;
+			PlaySheathSwordMontage(FName("Arm"));
+			
 		}
 	};
 }
@@ -177,6 +183,7 @@ bool ASlashCharacter::CanDisarm()
 	return false;
 }
 
+//gets called from Echo Animation Blue Print Nodes that are fired from Anim Notifys
 void ASlashCharacter::Disarm()
 {
 	if(EquippedWeapon)
@@ -186,6 +193,7 @@ void ASlashCharacter::Disarm()
 	}
 }
 
+//gets called from Echo Animation Blue Print Nodes that are fired from Anim Notifys
 void ASlashCharacter::Arm()
 {
 	if(EquippedWeapon)
@@ -195,6 +203,7 @@ void ASlashCharacter::Arm()
 	}
 }
 
+//gets called from Echo Animation Blue Print Nodes that are fired from Anim Notifys
 void ASlashCharacter::FinishedEquipping()
 {
 	ActionState = EActionState::EAS_UnOccupied;

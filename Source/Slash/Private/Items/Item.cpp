@@ -55,7 +55,7 @@ void AItem::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent,
 void AItem::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent,
 	AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	UE_LOG(LogTemp, Warning, TEXT("End Overlap"));
+	UE_LOG(LogTemp, Warning, TEXT("AItem::OnSphereEndOverlap : End Overlap"));
 	//Unsetting the overlappedItem once we are not overlapped
 	ASlashCharacter* SlashCharacter = Cast<ASlashCharacter>(OtherActor);
 	if(SlashCharacter)

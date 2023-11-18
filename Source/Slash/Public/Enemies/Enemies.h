@@ -31,7 +31,7 @@ public:
 
 	virtual void GetHit(const FVector& ImpactPoint) override;
 
-	void PlatHitReactMontage(FName SectionName);
+	void PlayHitReactMontage(FName SectionName);
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Enemy Montages")

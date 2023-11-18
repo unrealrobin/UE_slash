@@ -45,11 +45,11 @@ void AEnemies::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void AEnemies::GetHit(const FVector& ImpactPoint)
 {
 	DRAW_DEBUG(ImpactPoint);
-
-	PlatHitReactMontage(FName("ReactFront"));
+	UE_LOG(LogTemp, Warning, TEXT("Get Hit Fired"));
+	PlayHitReactMontage(FName("ReactRight"));
 }
 
-void AEnemies::PlatHitReactMontage(FName SectionName)
+void AEnemies::PlayHitReactMontage(FName SectionName)
 {
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
 	AnimInstance->Montage_Play(HitReactMontage);
